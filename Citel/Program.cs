@@ -1,7 +1,22 @@
+using Citel.Domain.Repositories;
+using Citel.Domain.Services;
+using Citel.Infra.Data.Context;
+using Citel.Infra.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<CitelContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:DbCitel"]);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
+
+builder.Services.AddScoped(typeof(IBase<>), typeof(Base<>));
+builder.Services.AddScoped<IServiceCategoria, ServiceCategoria>();
 
 var app = builder.Build();
 
