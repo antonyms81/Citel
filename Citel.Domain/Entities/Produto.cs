@@ -16,6 +16,7 @@ namespace Citel.Domain.Entities
         public Guid IdCategoria { get; set; }
         public virtual Categoria Categoria { get; set; }
 
+
         [NotMapped]
         public int Ordem { get; set; }
     }

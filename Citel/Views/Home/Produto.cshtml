@@ -1,0 +1,68 @@
+﻿@model Citel.Domain.Entities.Categoria
+@{
+    ViewData["Title"] = "Produto";
+}
+
+
+<form asp-action="Produto">
+    @if (TempData["ViewDataAlert"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            <strong> </strong>
+            @TempData["ViewDataAlert"]
+        </div>
+    }
+
+    <h3>Cadastro de Produtos</h3>
+   
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                @if (Model != null && Model.Produto != null)
+                {
+                    for (int i = 0; i < Model.Produto.Count; i++)
+                    {
+                        <input type="hidden" asp-for="Produto[i].Ordem" value="@(i+1)" />
+                        <div class="col-md-4">
+                            <label asp-for="Produto[i].NomeProduto" class="form-label"></label>
+                            <input asp-for="Produto[i].NomeProduto" class="form-control" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label asp-for="Produto[i].Preco" class="form-label"></label>
+                            <input asp-for="Produto[i].Preco" class="form-control" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label asp-for="Produto[i].Quantidade" class="form-label"></label>
+                            <input asp-for="Produto[i].Quantidade" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="NomeCategoria" class="form-label"></label>
+                            <input asp-for="NomeCategoria" class="form-control" required>
+                        </div>
+
+                        
+                    }
+                }
+               @* <div class="col-md-5">
+                    <strong>Categoria</strong>
+                    <select class="required" id="CATEGORIA" name="CATEGORIA">
+                        <option value="">...carregando</option>
+                    </select>
+                     <input id="hdCATEGORIA" name="hdCATEGORIA" type="hidden" value="@Model.Produto[0].ListaCategoria">
+                </div>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div style="padding-top:20px;">
+                <button type="submit" name="TipoAcao" value="AdicionarProduto" class="btn btn-primary me-3">Adicionar Produto</button>
+                <button type="submit" name="TipoAcao" value="CadastrarProduto" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="@Url.Content("~/js/produto.js")" type="text/javascript"></script>
+</form>
