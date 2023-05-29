@@ -10,7 +10,7 @@ namespace Citel.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IServiceCategoria _service;
-       
+
         public HomeController(ILogger<HomeController> logger, IServiceCategoria service)
         {
             _logger = logger;
@@ -25,40 +25,39 @@ namespace Citel.Controllers
 
         public IActionResult Categoria()
         {
-           
             return View();
         }
 
-        public async Task<IActionResult> Produto()
+        public async Task<IActionResult> Produto(ProdutoCategoriaViewModel produtoCategoria)
         {
             ListaCategoria listaCategoria = new ListaCategoria();
 
             var result = await _service.BuscarTodos();
 
-            listaCategoria.Categoria = result;
+            produtoCategoria.Categoria = result;
 
-            return View();
+            return View(produtoCategoria);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Produto(Categoria categoria)
+        public async Task<IActionResult> Produto(ProdutoCategoriaViewModel produtoCategoria, Produto produto)
         {
-            if (Request.Form["TipoAcao"] == "AdicionarProduto")
-                categoria.Produto.Add(new Produto { Id = Guid.NewGuid(), Ordem = categoria.Produto.Count });
+            produto.NomeProduto = produtoCategoria.NomeProduto.ToString();
+            produto.Preco = produtoCategoria.Preco;
+            produto.Quantidade = produtoCategoria.Quantidade;
+            
+            
 
-            if (Request.Form["TipoAcao"] == "CadastrarProduto")
-            {
-                var linhasAfetadas = await _service.Criar(Guid.NewGuid(), categoria);
-                if (linhasAfetadas > 0)
-                {
-                    TempData["ViewDataAlert"] = "Produto Cadastrado com sucesso :)";
-                    return RedirectToAction(nameof(Produto));
-                }
+            //var linhasAfetadas = await _service.Criar(Guid.NewGuid(), produto);
+            //var linhasAfetadas = await _service.CriarProduto(Guid.NewGuid(), produto);
+            //if (linhasAfetadas > 0)
+            //{
+            //    TempData["ViewDataAlert"] = "Produto Cadastrado com sucesso :)";
+            //    return RedirectToAction(nameof(Produto));
+            //}
 
-
-            }
-            return View(categoria);
+            return View(produtoCategoria);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

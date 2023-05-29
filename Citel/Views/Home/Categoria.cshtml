@@ -1,6 +1,25 @@
-﻿@{
+﻿@model Citel.Models.ProdutoCategoriaViewModel
+@{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+
+<form asp-action="Categoria">
+
+
+   
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div style="padding-top:20px;">
+                <button type="submit" name="TipoAcao" value="AdicionarCategoria" class="btn btn-primary me-3">Adicionar Categoria</button>
+                <button type="submit" name="TipoAcao" value="CadastrarCategoria" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+</form>

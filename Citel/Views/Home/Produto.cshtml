@@ -1,10 +1,12 @@
-﻿@model Citel.Domain.Entities.Categoria
+﻿@model Citel.Models.ProdutoCategoriaViewModel
 @{
     ViewData["Title"] = "Produto";
 }
 
 
-<form asp-action="Produto">
+<div class="container">
+
+
     @if (TempData["ViewDataAlert"] != null)
     {
         <div class="alert alert-warning" role="alert">
@@ -14,55 +16,57 @@
     }
 
     <h3>Cadastro de Produtos</h3>
-   
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                @if (Model != null && Model.Produto != null)
-                {
-                    for (int i = 0; i < Model.Produto.Count; i++)
+
+    @using (Html.BeginForm("Produto", "Home", FormMethod.Post, new { id = "FormProduto", name = "FormProoduto" }))
+    {
+        <div class="row" style="padding-bottom:20px;">
+
+            <div class="col-md-6">
+                <label for="NomeProduto"><b>NOME PRODUTO*</b></label>
+                <input id="NomeProduto" name="NomeProduto" class="required form-control" labelForError="NomeProduto" placeholder="" type="text" value="@Model.NomeProduto">
+            </div>
+
+            <div class="col-md-3">
+                <label for="Preco"><b>PREÇO*</b></label>
+                <input id="Preco" name="Preco" class="required form-control" labelForError="Preco" placeholder="" type="text" value="@Model.Preco">
+            </div>
+
+            <div class="col-md-3">
+                <label for="Quantidade"><b>QUANTIDADE*</b></label>
+                <input id="Quantidade" name="Quantidade" class="required form-control" labelForError="Quantidade" placeholder="" type="number" value="@Model.Quantidade">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <label for="Categoria"><b>CATEGORIA*</b></label>
+                <select class="required" style="width:210px; height:45px;" id="IdCategoria" name="IdCategoria" onchange="changeDECLARAOBS(this);">
+                    <option value="">Selecione uma Categoria</option>
+                    @foreach (var item in Model.Categoria)
                     {
-                        <input type="hidden" asp-for="Produto[i].Ordem" value="@(i+1)" />
-                        <div class="col-md-4">
-                            <label asp-for="Produto[i].NomeProduto" class="form-label"></label>
-                            <input asp-for="Produto[i].NomeProduto" class="form-control" required>
-                        </div>
-                        <div class="col-md-2">
-                            <label asp-for="Produto[i].Preco" class="form-label"></label>
-                            <input asp-for="Produto[i].Preco" class="form-control" required>
-                        </div>
-                        <div class="col-md-2">
-                            <label asp-for="Produto[i].Quantidade" class="form-label"></label>
-                            <input asp-for="Produto[i].Quantidade" class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label asp-for="NomeCategoria" class="form-label"></label>
-                            <input asp-for="NomeCategoria" class="form-control" required>
-                        </div>
-
-                        
+                        <option value="@item.Id">@item.NomeCategoria</option>
                     }
-                }
-               @* <div class="col-md-5">
-                    <strong>Categoria</strong>
-                    <select class="required" id="CATEGORIA" name="CATEGORIA">
-                        <option value="">...carregando</option>
-                    </select>
-                     <input id="hdCATEGORIA" name="hdCATEGORIA" type="hidden" value="@Model.Produto[0].ListaCategoria">
-                </div>*@
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div style="padding-top:20px;">
+                    <button type="submit" value="CadastrarProduto" class="btn btn-primary">Salvar</button>
+                </div>
             </div>
         </div>
-    </div>
+    }
+
+</div>
 
 
-    <div class="row">
-        <div class="col-md-4">
-            <div style="padding-top:20px;">
-                <button type="submit" name="TipoAcao" value="AdicionarProduto" class="btn btn-primary me-3">Adicionar Produto</button>
-                <button type="submit" name="TipoAcao" value="CadastrarProduto" class="btn btn-primary">Salvar</button>
-            </div>
-        </div>
-    </div>
 
-    <script src="@Url.Content("~/js/produto.js")" type="text/javascript"></script>
-</form>
+
+<script src="@Url.Content("~/js/produto.js")" type="text/javascript"></script>
+
+
+
+
