@@ -21,24 +21,24 @@
     {
         <div class="row" style="padding-bottom:20px;">
 
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <label for="NomeProduto"><b>NOME PRODUTO*</b></label>
                 <input id="NomeProduto" name="NomeProduto" class="required form-control" labelForError="NomeProduto" placeholder="" type="text" value="@Model.NomeProduto">
             </div>
 
             <div class="col-md-3">
                 <label for="Preco"><b>PREÇO*</b></label>
-                <input id="Preco" name="Preco" class="required form-control" labelForError="Preco" placeholder="" type="text" value="@Model.Preco">
+                <input id="Preco" name="Preco" class="required form-control" labelForError="Preco" placeholder="Valor Produto" type="text" value="@Model.Preco">
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="Quantidade"><b>QUANTIDADE*</b></label>
                 <input id="Quantidade" name="Quantidade" class="required form-control" labelForError="Quantidade" placeholder="" type="number" value="@Model.Quantidade">
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <label for="Categoria"><b>CATEGORIA*</b></label>
                 <select class="required" style="width:210px; height:45px;" id="IdCategoria" name="IdCategoria" onchange="changeDECLARAOBS(this);">
                     <option value="">Selecione uma Categoria</option>
@@ -64,8 +64,13 @@
 
 
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 <script src="@Url.Content("~/js/produto.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $("#Preco").mask('000.000.000.000.000,00', { reverse: true });
+</script>
 
 
 

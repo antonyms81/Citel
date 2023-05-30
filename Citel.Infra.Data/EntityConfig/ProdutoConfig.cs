@@ -25,7 +25,7 @@ namespace Citel.Infra.Data.EntityConfig
             entityTypeBuilder.Property(x => x.Preco)
                 .IsRequired(true)
                 .HasColumnName("Preco")
-                .HasColumnType("decimal");
+                .HasColumnType("decimal(5,2)");
 
             entityTypeBuilder.Property(x => x.Quantidade)
                .IsRequired(true)

@@ -17,6 +17,7 @@ builder.Services.AddDbContext<CitelContext>(options =>
 
 builder.Services.AddScoped(typeof(IBase<>), typeof(Base<>));
 builder.Services.AddScoped<IServiceCategoria, ServiceCategoria>();
+builder.Services.AddScoped<IServiceProduto, ServiceProduto>();
 
 var app = builder.Build();
 
