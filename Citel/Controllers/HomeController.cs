@@ -10,13 +10,13 @@ namespace Citel.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IServiceCategoria _service;
+        private readonly IServiceCategoria _serviceCategoria;
         private readonly IServiceProduto _serviceProduto;
 
-        public HomeController(ILogger<HomeController> logger, IServiceCategoria service, IServiceProduto serviceProduto)
+        public HomeController(ILogger<HomeController> logger, IServiceCategoria serviceCategoria, IServiceProduto serviceProduto)
         {
             _logger = logger;
-            _service = service;
+            _serviceCategoria = serviceCategoria;
             _serviceProduto = serviceProduto;
         }
 
@@ -31,13 +31,37 @@ namespace Citel.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Categoria(ProdutoCategoriaViewModel produtoCategoria, Categoria categopria)
+        {
+            categopria.NomeCategoria = produtoCategoria.NomeCategoria.ToString();
+           
+            try
+            {
+                var linhasAfetadas = await _serviceCategoria.Criar(Guid.NewGuid(), categopria);
+
+                if (linhasAfetadas > 0)
+                {
+                    TempData["ViewDataAlert"] = "Categoria Cadastrado com sucesso :)";
+                    return RedirectToAction(nameof(Categoria));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível realizar o cadastro.";
+            }
+
+            return View();
+        }
+
         public async Task<IActionResult> Produto(ProdutoCategoriaViewModel produtoCategoria)
         {
-            ListaCategoria listaCategoria = new ListaCategoria();
+            var listaProduto = await _serviceProduto.BuscarTodos();
+            var listaCategoria = await _serviceCategoria.BuscarTodos();
 
-            var result = await _service.BuscarTodos();
-
-            produtoCategoria.Categoria = result;
+            produtoCategoria.Categoria = listaCategoria;
+            produtoCategoria.Produto = listaProduto;
 
             return View(produtoCategoria);
         }
@@ -51,16 +75,32 @@ namespace Citel.Controllers
             produto.Quantidade = produtoCategoria.Quantidade;
             produto.IdCategoria = produtoCategoria.IdCategoria;
 
-            var linhasAfetadas = await _serviceProduto.CriarProduto(Guid.NewGuid(), produto);
-
-            if (linhasAfetadas > 0)
+            try
             {
-                TempData["ViewDataAlert"] = "Produto Cadastrado com sucesso :)";
-                return RedirectToAction(nameof(Produto));
+                var linhasAfetadas = await _serviceProduto.CriarProduto(Guid.NewGuid(), produto);
+
+                if (linhasAfetadas > 0)
+                {
+                    TempData["ViewDataAlert"] = "Produto Cadastrado com sucesso :)";
+                    return RedirectToAction(nameof(Produto));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível realizar o cadastro.";
             }
 
             return View();
         }
+
+        public async Task<IActionResult> EditarProduto(Guid id)
+        {
+           
+            
+            return View();
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

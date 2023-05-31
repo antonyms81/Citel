@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+
+table {
+    text-align: center;
+    font-family: Montserrat, Arial, sans-serif;
+    background: #fafafa;
+    margin: 0 auto;
+    width: 80%;
+}
+
+tr:nth-child(even) {
+    background: lightgray;
+}

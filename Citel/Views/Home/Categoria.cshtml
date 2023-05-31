@@ -1,25 +1,41 @@
 ﻿@model Citel.Models.ProdutoCategoriaViewModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Produto";
 }
-<h1>@ViewData["Title"]</h1>
-
-<p>Use this page to detail your site's privacy policy.</p>
 
 
-<form asp-action="Categoria">
+<div class="container">
 
+    @if (TempData["ViewDataAlert"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            <strong> </strong>
+            @TempData["ViewDataAlert"]
+        </div>
+    }
 
-   
+    <h3>Cadastro de Categoria</h3>
 
-
-    <div class="row">
-        <div class="col-md-4">
-            <div style="padding-top:20px;">
-                <button type="submit" name="TipoAcao" value="AdicionarCategoria" class="btn btn-primary me-3">Adicionar Categoria</button>
-                <button type="submit" name="TipoAcao" value="CadastrarCategoria" class="btn btn-primary">Salvar</button>
+    @using (Html.BeginForm("Categoria", "Home", FormMethod.Post, new { id = "FormCategoria", name = "FormCategoria" }))
+    {
+        <div class="row" style="padding-bottom:20px;">
+            <div class="col-md-7">
+                <label for="NomeCategoria"><b>NOME CATEGORIA*</b></label>
+                <input id="NomeCategoria" name="NomeCategoria" class="required form-control" labelForError="NomeCategoria" placeholder="" type="text" value="@Model?.NomeCategoria">
             </div>
         </div>
-    </div>
 
-</form>
+        <div class="row">
+            <div class="col-md-4">
+                <div style="padding-top:20px;">
+                    <button type="submit" value="CadastrarCategoria" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
+

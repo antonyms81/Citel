@@ -4,8 +4,8 @@
 }
 
 
-<div class="container">
 
+<div class="container">
 
     @if (TempData["ViewDataAlert"] != null)
     {
@@ -59,14 +59,50 @@
             </div>
         </div>
     }
-
 </div>
 
 
 
+
+
+
+<hr>
+<div>
+    <div class='row'>
+        <div class="col-md-12">
+            <table width="100%" border="1">
+                <tr style="font-weight:bold">
+                    <td width="20%">Nome Produto</td>
+                    <td width="20%">Preço</td>
+                    <td width="20%">Quantidade</td>
+                    <td width="20%">Ações</td>
+                </tr>
+                @if(Model.Produto != null)
+                {
+                    @foreach (var item in Model.Produto )
+                    {
+                        <tr>
+                            <td>@item.NomeProduto</td>
+                            <td>@item.Preco</td>
+                            <td>@item.Quantidade</td>
+                            <td>
+                                @Html.ActionLink("EditarProduto", "Editar", "Home", new { ID = item.Id }, new { })
+                                <span>| </span>
+                                @Html.ActionLink("ExcluirProduto", "Deletar", "Home", new { ID = item.Id }, new { })
+                            </td>
+                        </tr>
+                    }
+                    
+                }
+               
+            </table>
+        </div>
+    </div>
+
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-<script src="@Url.Content("~/js/produto.js")" type="text/javascript"></script>
 
 <script type="text/javascript">
     $("#Preco").mask('000.000.000.000.000,00', { reverse: true });
