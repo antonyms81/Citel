@@ -21,11 +21,6 @@ namespace Citel.Domain.Services
         {
             categoria.Id = id;
 
-            if (categoria.Produto != null)
-            {
-                categoria.Produto.ForEach(x => x.IdCategoria = id);
-            }
-
             return await _repositorio.Criar(categoria);
         }
 
@@ -35,20 +30,9 @@ namespace Citel.Domain.Services
             return await _repositorio.Atualizar(categoria);
         }
 
-        public async Task<int> AtualizarItem(Guid id, Produto produto)
-        {
-            produto.Id = id;
-            return await _repositorio.AtualizarItem(produto);
-        }
-
         public async Task<int> Excluir(Guid id)
         {
             return await _repositorio.Excluir(id);
-        }
-
-        public async Task<int> ExcluirItem(Guid id, Produto produto)
-        {
-            return await _repositorio.ExcluirItem(produto);
         }
 
         public async Task<List<Categoria>> BuscarTodos()
@@ -59,11 +43,6 @@ namespace Citel.Domain.Services
         public async Task<Categoria> BuscarPorId(Guid id)
         {
             return await _repositorio.BuscarPeloId(id);
-        }
-
-        public async Task<List<Produto>> BuscarItem()
-        {
-            return await _repositorio.BuscarItem();
         }
     }
 }

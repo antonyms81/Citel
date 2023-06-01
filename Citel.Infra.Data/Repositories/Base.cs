@@ -33,30 +33,12 @@ namespace Citel.Infra.Data.Repositories
             return await _contexto.SaveChangesAsync();
         }
 
-        public virtual async Task<int> AtualizarItem(E entidade)
-        {
-            _contexto.Entry(entidade).State = EntityState.Modified;
-            return await _contexto.SaveChangesAsync();
-        }
-
+       
         public virtual async Task<int> Excluir(Guid id)
         {
             try
             {
                 _contexto.Set<E>().Remove(await BuscarPeloId(id));
-                return await _contexto.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-
-        public virtual async Task<int> ExcluirItem(E entidade)
-        {
-            try
-            {
-                _contexto.Entry(entidade).State = EntityState.Deleted;
                 return await _contexto.SaveChangesAsync();
             }
             catch (Exception)
@@ -75,21 +57,5 @@ namespace Citel.Infra.Data.Repositories
             return await _contexto.Set<E>().FindAsync(id);
         }
 
-        public virtual async Task<List<Produto>> BuscarItem()
-        {
-            return await _contexto.Set<Produto>().ToListAsync();
-        }
-
-        public async Task<int> AtualizarItem(Produto produto)
-        {
-            _contexto.Entry(produto).State = EntityState.Modified;
-            return await _contexto.SaveChangesAsync();
-        }
-
-        public async Task<int> ExcluirItem(Produto produto)
-        {
-            _contexto.Entry(produto).State = EntityState.Deleted;
-            return await _contexto.SaveChangesAsync();
-        }
     }
 }

@@ -138,7 +138,6 @@ namespace Citel.Controllers
                 {
                     var resul = await _serviceProduto.Excluir(item.Id);
                 }
-               
                 var linhasAfetadas = await _serviceCategoria.Excluir(produtoCategoria.IdCategoria);
 
                 if (linhasAfetadas > 0)

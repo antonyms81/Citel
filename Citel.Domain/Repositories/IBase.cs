@@ -11,13 +11,8 @@ namespace Citel.Domain.Repositories
     {
         Task<int> Criar(E entidade);
         Task<int> Atualizar(E entidade);
-        Task<int> AtualizarItem(E entidade);
-        Task<int> ExcluirItem(E entidade);
         Task<int> Excluir(Guid id);
         Task<List<E>> BuscarTodos();
         Task<E> BuscarPeloId(Guid id);
-        Task<List<Produto>> BuscarItem();
-        Task<int> AtualizarItem(Produto produto);
-        Task<int> ExcluirItem(Produto produto);
     }
 }

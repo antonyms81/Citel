@@ -11,11 +11,8 @@ namespace Citel.Domain.Services
     {
         Task<int> Criar(Guid id, Categoria categoria);
         Task<int> Atualizar(Guid id, Categoria categoria);
-        Task<int> AtualizarItem(Guid id, Produto produto);
-        Task<int> ExcluirItem(Guid id, Produto produto);
         Task<int> Excluir(Guid id);
         Task<List<Categoria>> BuscarTodos();
         Task<Categoria> BuscarPorId(Guid id);
-        Task<List<Produto>> BuscarItem();
     }
 }
