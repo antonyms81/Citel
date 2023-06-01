@@ -1,0 +1,53 @@
+﻿@model Citel.Models.ProdutoCategoriaViewModel
+@{
+    ViewData["Title"] = "Deletar Produto";
+}
+
+<div class="container">
+
+    @if (TempData["ViewDataAlert"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            <strong> </strong>
+            @TempData["ViewDataAlert"]
+        </div>
+    }
+
+    <h3>Cadastro de Produtos</h3>
+
+    @using (Html.BeginForm("DeletarProduto", "Home", FormMethod.Post, new { id = "FormProduto", name = "FormProoduto" }))
+    {
+        <input type="hidden" id="IdProduto" name="IdProduto" value="@Model.IdProduto" />
+        <div class="row" style="padding-bottom:20px;">
+            <div class="col-md-7">
+                <label><b>Deseja excluir o Produto @Model.NomeProduto</b></label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div style="padding-top:20px;">
+                    <button type="submit" value="DeletarProduto" class="btn btn-primary">Deletar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+<script type="text/javascript">
+    $("#Preco").mask('000.000.000.000.000,00', { reverse: true });
+</script>
+
+
+
+

@@ -60,16 +60,7 @@ namespace Citel.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Produto(ProdutoCategoriaViewModel produtoCategoria)
-        {
-            var listaProduto = await _serviceProduto.BuscarTodos();
-            var listaCategoria = await _serviceCategoria.BuscarTodos();
-
-            produtoCategoria.Categoria = listaCategoria;
-            produtoCategoria.Produto = listaProduto;
-
-            return View(produtoCategoria);
-        }
+       
 
         public async Task<IActionResult> EditarCategoria(Guid id, ProdutoCategoriaViewModel produtoCategoria)
         {
@@ -116,6 +107,62 @@ namespace Citel.Controllers
                 TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível realizar a auteração da Categoria.";
             }
             return View();
+        }
+
+        public async Task<IActionResult> DeletarCategoria(Guid id, ProdutoCategoriaViewModel produtoCategoria)
+        {
+            if (id != Guid.Empty)
+            {
+                var result = await _serviceCategoria.BuscarPorId(id);
+
+                produtoCategoria.IdCategoria = result.Id;
+                produtoCategoria.NomeCategoria = result.NomeCategoria;
+
+                if (result != null)
+                {
+                    return View(produtoCategoria);
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletarCategoria(ProdutoCategoriaViewModel produtoCategoria)
+        {
+            var produtos = await _serviceProduto.BuscarTodos();
+            var _produto = produtos.Where(x => x.IdCategoria == produtoCategoria.IdCategoria);
+
+            try
+            {
+                foreach (var item in _produto)
+                {
+                    var resul = await _serviceProduto.Excluir(item.Id);
+                }
+               
+                var linhasAfetadas = await _serviceCategoria.Excluir(produtoCategoria.IdCategoria);
+
+                if (linhasAfetadas > 0)
+                {
+                    TempData["ViewDataAlert"] = "Categoria Excluido com sucesso :)";
+                    return RedirectToAction(nameof(Categoria));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível Excluir Produto.";
+            }
+            return View();
+
+        }
+        public async Task<IActionResult> Produto(ProdutoCategoriaViewModel produtoCategoria)
+        {
+            var listaProduto = await _serviceProduto.BuscarTodos();
+            var listaCategoria = await _serviceCategoria.BuscarTodos();
+
+            produtoCategoria.Categoria = listaCategoria;
+            produtoCategoria.Produto = listaProduto;
+
+            return View(produtoCategoria);
         }
 
         [HttpPost]
@@ -173,7 +220,6 @@ namespace Citel.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> EditarProduto(ProdutoCategoriaViewModel produtoCategoria, Produto produto)
         {
@@ -199,6 +245,47 @@ namespace Citel.Controllers
             }
             return View();
         }
+
+
+        public async Task<IActionResult> DeletarProduto(Guid id, ProdutoCategoriaViewModel produtoCategoria)
+        {
+            if (id != Guid.Empty)
+            {
+                var result = await _serviceProduto.BuscarPorId(id);
+
+                produtoCategoria.IdProduto = result.Id;
+                produtoCategoria.NomeProduto = result.NomeProduto;
+
+                if (result != null)
+                {
+                    return View(produtoCategoria);
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletarProduto(ProdutoCategoriaViewModel produtoCategoria)
+        {
+
+            try
+            {
+                var linhasAfetadas = await _serviceProduto.Excluir(produtoCategoria.IdProduto);
+
+                if (linhasAfetadas > 0)
+                {
+                    TempData["ViewDataAlert"] = "Produto Excluido com sucesso :)";
+                    return RedirectToAction(nameof(Produto));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível Excluir Produto.";
+            }
+            return View();
+
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
