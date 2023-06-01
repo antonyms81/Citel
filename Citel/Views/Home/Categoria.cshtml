@@ -36,6 +36,37 @@
 
 </div>
 
+<hr>
+<div>
+    <div class='row'>
+        <div class="col-md-12">
+            <table width="100%" border="1">
+                <tr style="font-weight:bold">
+                    <td width="20%">Nome Categoria</td>
+                    <td width="20%">Ações</td>
+                </tr>
+                @if (Model?.Categoria != null)
+                {
+                    @foreach (var item in Model?.Categoria)
+                    {
+                        <tr>
+                            <td>@item.NomeCategoria</td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditarCategoria", "Home", new { ID = item.Id }, new { })
+                                <span>| </span>
+                                @Html.ActionLink("Excluir", "DeletarCategoria", "Home", new { ID = item.Id }, new { })
+                            </td>
+                        </tr>
+                    }
+
+                }
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
 
 
 

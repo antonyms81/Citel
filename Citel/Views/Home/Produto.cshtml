@@ -61,11 +61,6 @@
     }
 </div>
 
-
-
-
-
-
 <hr>
 <div>
     <div class='row'>
@@ -86,9 +81,9 @@
                             <td>@item.Preco</td>
                             <td>@item.Quantidade</td>
                             <td>
-                                @Html.ActionLink("EditarProduto", "Editar", "Home", new { ID = item.Id }, new { })
+                                @Html.ActionLink("Editar", "EditarProduto", "Home", new { ID = item.Id }, new { })
                                 <span>| </span>
-                                @Html.ActionLink("ExcluirProduto", "Deletar", "Home", new { ID = item.Id }, new { })
+                                @Html.ActionLink("Excluir", "DeletarProduto", "Home", new { ID = item.Id }, new { })
                             </td>
                         </tr>
                     }

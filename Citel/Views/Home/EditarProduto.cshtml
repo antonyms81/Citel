@@ -1,0 +1,78 @@
+﻿@model Citel.Models.ProdutoCategoriaViewModel
+@{
+    ViewData["Title"] = "Editar Produto";
+}
+
+<div class="container">
+
+    @if (TempData["ViewDataAlert"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            <strong> </strong>
+            @TempData["ViewDataAlert"]
+        </div>
+    }
+
+    <h3>Cadastro de Produtos</h3>
+
+    @using (Html.BeginForm("EditarProduto", "Home", FormMethod.Post, new { id = "FormProduto", name = "FormProoduto" }))
+    {
+        <input type="hidden" id="IdProduto" name="IdProduto" value="@Model.IdProduto" />
+        <div class="row" style="padding-bottom:20px;">
+
+            <div class="col-md-7">
+                <label for="NomeProduto"><b>NOME PRODUTO*</b></label>
+                <input id="NomeProduto" name="NomeProduto" class="required form-control" labelForError="NomeProduto" placeholder="" type="text" value="@Model?.NomeProduto">
+            </div>
+
+            <div class="col-md-3">
+                <label for="Preco"><b>PREÇO*</b></label>
+                <input id="Preco" name="Preco" class="required form-control" labelForError="Preco" placeholder="" type="text" value="@Model?.Preco">
+            </div>
+
+            <div class="col-md-2">
+                <label for="Quantidade"><b>QUANTIDADE*</b></label>
+                <input id="Quantidade" name="Quantidade" class="required form-control" labelForError="Quantidade" placeholder="" type="number" value="@Model?.Quantidade">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="Categoria"><b>CATEGORIA*</b></label>
+                <select class="required" style="width:210px; height:45px;" id="IdCategoria" name="IdCategoria" onchange="changeDECLARAOBS(this);">
+                    <option value="">Selecione uma Categoria</option>
+                    @foreach (var item in Model?.Categoria)
+                    {
+                        <option value="@item.Id">@item.NomeCategoria</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div style="padding-top:20px;">
+                    <button type="submit" value="AtualizarProduto" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+<script type="text/javascript">
+    $("#Preco").mask('000.000.000.000.000,00', { reverse: true });
+</script>
+
+
+
+

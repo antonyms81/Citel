@@ -4,6 +4,7 @@ using Citel.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Citel.Controllers
 {
@@ -26,9 +27,13 @@ namespace Citel.Controllers
         }
 
 
-        public IActionResult Categoria()
+        public async Task<IActionResult> Categoria(ProdutoCategoriaViewModel produtoCategoria)
         {
-            return View();
+            var listaCategoria = await _serviceCategoria.BuscarTodos();
+
+            produtoCategoria.Categoria = listaCategoria;
+
+            return View(produtoCategoria);
         }
 
 
@@ -36,7 +41,7 @@ namespace Citel.Controllers
         public async Task<IActionResult> Categoria(ProdutoCategoriaViewModel produtoCategoria, Categoria categopria)
         {
             categopria.NomeCategoria = produtoCategoria.NomeCategoria.ToString();
-           
+
             try
             {
                 var linhasAfetadas = await _serviceCategoria.Criar(Guid.NewGuid(), categopria);
@@ -66,6 +71,52 @@ namespace Citel.Controllers
             return View(produtoCategoria);
         }
 
+        public async Task<IActionResult> EditarCategoria(Guid id, ProdutoCategoriaViewModel produtoCategoria)
+        {
+            Produto produto = new Produto();
+
+            try
+            {
+                if (id != Guid.Empty)
+                {
+                    var _categoria = await _serviceCategoria.BuscarPorId(id);
+                    produtoCategoria.NomeCategoria = _categoria.NomeCategoria;
+                    produtoCategoria.IdCategoria = _categoria.Id;
+                   
+                    return View(produtoCategoria);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível editar categoria, entrar em contato com a Equipe Técnica.";
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditarCategoria(ProdutoCategoriaViewModel produtoCategoria, Categoria categoria)
+        {
+            categoria.Id = produtoCategoria.IdCategoria;
+            categoria.NomeCategoria = categoria.NomeCategoria;
+           
+            try
+            {
+                var linhasAfetadas = await _serviceCategoria.Atualizar(categoria.Id, categoria);
+
+                if (linhasAfetadas > 0)
+                {
+                    TempData["ViewDataAlert"] = "Categoria Alterado com sucesso :)";
+                    return RedirectToAction(nameof(Categoria));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível realizar a auteração da Categoria.";
+            }
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Produto(ProdutoCategoriaViewModel produtoCategoria, Produto produto)
@@ -93,13 +144,61 @@ namespace Citel.Controllers
             return View();
         }
 
-        public async Task<IActionResult> EditarProduto(Guid id)
+        public async Task<IActionResult> EditarProduto(Guid id, ProdutoCategoriaViewModel produtoCategoria)
         {
+            Produto produto = new Produto();
            
-            
+            try
+            {
+                if (id != Guid.Empty)
+                {
+                    var _produto = await _serviceProduto.BuscarPorId(id);
+                    var _categoria = await _serviceCategoria.BuscarTodos();
+
+                    produtoCategoria.NomeProduto = _produto.NomeProduto.ToString();
+                    produtoCategoria.Preco = _produto.Preco;    
+                    produtoCategoria.Quantidade = _produto.Quantidade;
+                    produtoCategoria.Categoria = _categoria;
+                    produtoCategoria.IdProduto = _produto.Id;
+
+
+                    return View(produtoCategoria);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível editar produto, entrar em contato com a Equipe Técnica.";
+            }
+
             return View();
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> EditarProduto(ProdutoCategoriaViewModel produtoCategoria, Produto produto)
+        {
+            produto.NomeProduto = produtoCategoria.NomeProduto.ToString();
+            produto.Preco = produtoCategoria.Preco;
+            produto.Quantidade = produtoCategoria.Quantidade;
+            produto.IdCategoria = produtoCategoria.IdCategoria;
+            produto.Id = produtoCategoria.IdProduto;
+
+            try
+            {
+                var linhasAfetadas = await _serviceProduto.Atualizar(produto.Id, produto);
+
+                if (linhasAfetadas > 0)
+                {
+                    TempData["ViewDataAlert"] = "Produto Alterado com sucesso :)";
+                    return RedirectToAction(nameof(Produto));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ViewDataAlert"] = "Desculpe!!! Não foi possível realizar a auteração do Produto.";
+            }
+            return View();
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
